@@ -26,7 +26,7 @@ const Signup = () => {
             if (response.status === 200) {
                 localStorage.setItem("token", await response.data.token);
                 alert(response.data.msg);
-                navigate("/login");
+                navigate("/dashboard");
             }
         } catch (e) {
             if (e.response && e.response.status === 401) {
