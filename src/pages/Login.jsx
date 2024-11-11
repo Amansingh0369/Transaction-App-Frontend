@@ -6,6 +6,7 @@ import { ButtomWarning } from "../components/ButtomWarning.jsx";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import logingif from "../assets/login.gif"
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -93,10 +94,9 @@ const Login = () => {
                     />
                 </div>
 
-                {/* Image Section (hidden on small screens) */}
-                <div className="hidden md:block md:w-1/2 lg:w-2/3 flex justify-center items-center p-4">
+                <div className="hidden md:block md:w-1/2 lg:w-/3 flex justify-center items-center pb-10 px-20 mx-20" >
                     <img
-                        src="your-image-url.jpg"
+                        src={logingif}
                         alt="Decorative"
                         className="object-cover w-full h-full rounded-3xl"
                     />
