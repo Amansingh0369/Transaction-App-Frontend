@@ -56,10 +56,17 @@ const Login = () => {
             </div>
 
             {/* Main Container with Image and Login Box */}
-            <div className="w-full sm:w-3/4 md:w-4/5 lg:w-11/12 bg-white rounded-3xl sm:shadow-lg p-8 md:p-12 lg:p-16 transform transition-all duration-500 ease-in-out flex flex-col md:flex-row">
+            <div className="w-full sm:w-3/4 md:w-4/5 lg:w-11/12 bg-white rounded-3xl sm:shadow-lg p-4 md:p-12 lg:p-16 transform transition-all duration-500 ease-in-out flex flex-col md:flex-row">
 
+                <div className="hidden md:block md:w-1/2 lg:w-/3 flex justify-center items-center pb-10 px-20 mx-20" >
+                    <img
+                        src={logingif}
+                        alt="Decorative"
+                        className="object-cover w-full h-full rounded-3xl"
+                    />
+                </div>
                 {/* Login Box */}
-                <div className="flex-1 md:w-1/2 lg:w-1/3">
+                <div className="p-0 flex-1 md:w-1/2 lg:w-1/3">
                     <div className="text-center w-full mb-6 animate-fadeInUp">
                         <Heading label={"Login"} />
                         <SubHeading label={"Enter your credentials to access your account"} />
@@ -91,14 +98,6 @@ const Login = () => {
                         buttonText={"Sign up"}
                         to={"/signup"}
                         className="text-gray-500 animate-fadeIn delay-400"
-                    />
-                </div>
-
-                <div className="hidden md:block md:w-1/2 lg:w-/3 flex justify-center items-center pb-10 px-20 mx-20" >
-                    <img
-                        src={logingif}
-                        alt="Decorative"
-                        className="object-cover w-full h-full rounded-3xl"
                     />
                 </div>
             </div>

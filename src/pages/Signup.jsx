@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ButtomWarning } from "../components/ButtomWarning.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import signupGif from "../assets/signup.gif";
 
 const Signup = () => {
     const [fullName, setFullName] = useState("");
@@ -21,7 +22,7 @@ const Signup = () => {
             const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
                 name: fullName,
                 email,
-                password
+                password,
             });
             if (response.status === 200) {
                 localStorage.setItem("token", await response.data.token);
@@ -39,7 +40,8 @@ const Signup = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen px-4">
+        <div className="flex justify-center items-center h-screen w-screen px-4">
+            {/* Background Blur */}
             <div
                 aria-hidden="true"
                 className="hidden sm:block absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -52,41 +54,65 @@ const Signup = () => {
                     className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
                 />
             </div>
-            <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-white rounded-3xl md:h-4/5  sm:shadow-2xl p-4 md:p-8 flex flex-col items-center">
-                <div className="text-center mb-0 w-full">
-                    <Heading label={"Sign Up"} />
-                    <SubHeading label={"Enter your information to create an account"} />
-                </div>
 
-                <div className="w-full">
+            {/* Main Container with Image and Signup Box */}
+            <div className="w-full sm:w-3/4 md:w-4/5 lg:w-11/12 bg-white rounded-3xl sm:shadow-lg p-4 md:p-12 lg:p-16 transform transition-all duration-500 ease-in-out flex flex-col md:flex-row">
+
+                <div className="hidden md:block md:w-1/2 lg:w-1/3 flex justify-center items-center pb-10 mx-44">
+                    <img
+                        src={signupGif}
+                        alt="Decorative"
+                        className="object-cover w-full h-full rounded-3xl"
+                    />
+                </div>
+                {/* Signup Box */}
+                <div className="p-0 flex-1 md:w-1/2 lg:w-1/3">
+                    <div className="text-center w-full mb-6">
+                        <Heading label={"Sign Up"} />
+                        <SubHeading label={"Enter your information to create an account"} />
+                    </div>
+
                     <InputBox
                         onChange={(e) => setFullName(e.target.value)}
                         label={"Full Name"}
                         placeholder={"Aman Singh"}
                         type={"text"}
+                        className="mb-4"
                     />
                     <InputBox
                         onChange={(e) => setEmail(e.target.value)}
                         label={"Email"}
                         placeholder={"example@gmail.com"}
                         type={"email"}
+                        className="mb-4"
                     />
                     <InputBox
                         onChange={(e) => setPassword(e.target.value)}
                         label={"Password"}
                         placeholder={"Password"}
                         type={"password"}
+                        className="mb-6"
                     />
 
-                    <Button label={"Sign Up"} onClick={onclick} className="w-full mb-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md transition duration-300 ease-in-out" />
+                    <Button
+                        label={"Sign Up"}
+                        onClick={onclick}
+                        className="w-full mb-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md transition duration-300 ease-in-out"
+                    />
 
+                    <ButtomWarning
+                        label={"Already have an account?"}
+                        buttonText={"Sign in"}
+                        to={"/login"}
+                        className="text-gray-500"
+                    />
                 </div>
-                <ButtomWarning label={"Already have an account?"} buttonText={"Sign in"} to={"/login"} className="text-gray-500" />
             </div>
+
+            {/* Bottom Background Blur */}
             <div
                 aria-hidden="true"
                 className="hidden sm:block absolute inset-x-0 top-[calc(100%-25rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-45rem)]"
-
             >
                 <div
                     style={{
