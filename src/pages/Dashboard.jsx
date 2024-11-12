@@ -50,11 +50,11 @@ const Dashboard = () => {
     return (
         <div className="w-full h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
             <NavBar name={name} />
-            <div className="p-8 max-w-4xl mx-auto">
+            <div className="p-8  mx-auto">
                 <div className="flex justify-between items-center mb-6">
                     <div className="text-4xl font-bold">
                         <span>Balance: </span>
-                        <span className="text-indigo-600 dark:text-indigo-400">₹{Math.floor(balance)}</span>
+                        <span className="text-green-500 dark:text-green-500">$ {Math.floor(balance)}</span>
                     </div>
                     <button onClick={handelBalance} className="bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-6 rounded-3xl">
                         Check Balance
@@ -84,11 +84,16 @@ function User({ user }) {
     return (
         <div className="flex justify-between items-center py-4 px-6 border-b dark:border-gray-700">
             <div className="flex items-center space-x-3">
-                <div className="flex items-center justify-center rounded-full h-12 w-12 bg-indigo-100 dark:bg-gray-700 text-indigo-700 dark:text-white font-bold text-xl">
+                <div className="flex items-center justify-center rounded-full h-12 w-12 bg-indigo-100 dark:bg-indigo-500 text-indigo-700 dark:text-white font-bold text-xl">
                     {user.name[0].toUpperCase()}
                 </div>
-                <div className="text-lg font-semibold">
-                    {user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase()}
+                <div>
+                    <div className="text-lg font-semibold">
+                        {user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase()}
+                    </div>
+                    <div className="text-sm">
+                        {user.email}
+                    </div>
                 </div>
             </div>
             <Button onClick={() => navigate(`/send?id=${user._id}&name=${user.name}`)} label="Send Money" />
