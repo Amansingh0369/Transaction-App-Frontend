@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline'
 import logo from "../assets/logo.png"
+import walletIcon from "../assets/wallet.png"
 
 export default function Landing() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -14,7 +15,7 @@ export default function Landing() {
     }, [darkMode])
 
     return (
-        <div className={`min-h-screen bg-white dark:bg-gray-900`}>
+        <div className={`min-h-full bg-white dark:bg-gray-900`}>
             <header className="absolute inset-x-0 top-0 z-50">
                 <nav aria-label="Global" className="flex items-center justify-between p-2 lg:p-4 lg:px-8">
                     <div className="flex lg:flex-1 items-center space-x-2">
@@ -22,7 +23,7 @@ export default function Landing() {
                             <span className="sr-only">Transaction App</span>
                             <img
                                 alt="Transaction App Logo"
-                                src={logo}
+                                src={darkMode ? walletIcon : logo}
                                 className="h-10 w-auto lg:h-10 lg:w-auto"
                             />
                         </a>
@@ -136,7 +137,7 @@ export default function Landing() {
                         </h1>
 
                         <p className="mt-4 mb-16 sm:mt-20 text-pretty text-lg font-medium text-gray-500 dark:text-gray-400 sm:text-xl">
-                            A Transaction App Designed For Secure, Efficient, And Easy Transfers. Manage Your Transactions With Confidence And Clarity.
+                            A Transaction App Designed For Secure, Efficient And Easy Transfers. Manage Your Transactions With Confidence And Clarity.
                         </p>
 
                         <div className="mt-8 sm:mt-8 sm:flex sm:justify-center">

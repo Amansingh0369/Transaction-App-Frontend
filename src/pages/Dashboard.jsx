@@ -1,18 +1,21 @@
-import {Heading} from "../components/Heading.jsx";
-import {SubHeading} from "../components/SubHeading.jsx";
-import {NavBar} from "../components/NavBar.jsx";
-import {InputBox} from "../components/InputBox.jsx";
-import {Button} from "../components/Button.jsx";
-import {useEffect, useState} from "react";
+import { Heading } from "../components/Heading.jsx";
+import { SubHeading } from "../components/SubHeading.jsx";
+import { NavBar } from "../components/NavBar.jsx";
+import { InputBox } from "../components/InputBox.jsx";
+import { Button } from "../components/Button.jsx";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import walletIcon from "../assets/wallet.png"
 
-const Dashboard = () =>{
+const Dashboard = () => {
     const [users, setUser] = useState([]);
     const [filter, setFilter] = useState("");
     const [searchParam] = useSearchParams();
     const name = searchParam.get("email");
-    const [balance,setBalance] = useState();
+    const [balance, setBalance] = useState();
+    const [darkMode, setDarkMode] = useState(false);
 
     useEffect(() => {
         async function fetchUsers() {
@@ -23,9 +26,12 @@ const Dashboard = () =>{
                 console.error("Error fetching users:", error);
             }
         }
-
         fetchUsers();
     }, [filter]);
+
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', darkMode);
+    }, [darkMode]);
 
     async function handelBalance() {
         try {
@@ -37,40 +43,30 @@ const Dashboard = () =>{
             setBalance(response.data.balance);
         } catch (error) {
             console.error("Error fetching balance:", error);
-
         }
     }
     handelBalance()
 
-
-    return <div className="w-screen h-screen">
-        <div>
-            <NavBar name = {name}/>
-            <div className="flex m-8 justify-between">
-                <div className="flex font-bold text-4xl">
-                    <div>
-                        Balance
+    return (
+        <div className="w-full h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+            <NavBar name={name} />
+            <div className="p-8 max-w-4xl mx-auto">
+                <div className="flex justify-between items-center mb-6">
+                    <div className="text-4xl font-bold">
+                        <span>Balance: </span>
+                        <span className="text-indigo-600 dark:text-indigo-400">₹{Math.floor(balance)}</span>
                     </div>
-                    <div className="px-4">
-                        ₹ {Math.floor(balance)}
-                    </div>
-                </div>
-                <div>
-                    <button onClick={handelBalance} className="bg-green-600 text-white w-36 h-10 rounded-2xl">
-                        Check balance
+                    <button onClick={handelBalance} className="bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-6 rounded-3xl">
+                        Check Balance
                     </button>
                 </div>
-            </div>
-            <div className="mx-10">
-                <div className="font-bold mt-6 text-lg">Users</div>
-                <div className="my-2">
+                <div className="font-bold text-lg mb-2">Users</div>
+                <div className="mb-4">
                     <input
-                        onChange={(e) => {
-                            setFilter(e.target.value);
-                        }}
-                        className="outline-1 w-full px-2 py-1 border rounded border-slate-200"
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="w-full px-4 py-2 border rounded dark:border-gray-600 dark:bg-gray-800"
                         type="text"
-                        placeholder="Search users.."
+                        placeholder="Search users..."
                     />
                 </div>
                 <div>
@@ -80,27 +76,24 @@ const Dashboard = () =>{
                 </div>
             </div>
         </div>
-    </div>
+    );
 }
 
 function User({ user }) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     return (
-        <div className="flex justify-between">
-            <div className="flex">
-                <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2">
-                    <div className="flex flex-col justify-center h-full text-xl">{user.name[0]}</div>
+        <div className="flex justify-between items-center py-4 px-6 border-b dark:border-gray-700">
+            <div className="flex items-center space-x-3">
+                <div className="flex items-center justify-center rounded-full h-12 w-12 bg-indigo-100 dark:bg-gray-700 text-indigo-700 dark:text-white font-bold text-xl">
+                    {user.name[0].toUpperCase()}
                 </div>
-                <div className="flex flex-col justify-center h-full">
-                    <div>{user.name}</div>
+                <div className="text-lg font-semibold">
+                    {user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase()}
                 </div>
             </div>
-            <div>
-                <Button onClick={(e)=>{
-                    navigate("/send?id="+user._id + "&name=" + user.name)
-                }} label={"Send Money"} />
-            </div>
+            <Button onClick={() => navigate(`/send?id=${user._id}&name=${user.name}`)} label="Send Money" />
         </div>
     );
 }
-export default Dashboard
+
+export default Dashboard;
