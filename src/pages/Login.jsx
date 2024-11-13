@@ -87,11 +87,13 @@ const Login = () => {
                         className="mb-6 animate-fadeIn delay-200"
                     />
 
-                    <Button
-                        label={"Login"}
-                        onClick={handleSubmit}
-                        className="w-full mb-4 bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 animate-fadeIn delay-300"
-                    />
+                    <div className="pt-4">
+                        <Button
+                            label={"Login"}
+                            onClick={handleSubmit}
+                            className="w-full mb-4 bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 animate-fadeIn delay-300"
+                        />
+                    </div>
 
                     <ButtomWarning
                         label={"Don't have an account ?"}

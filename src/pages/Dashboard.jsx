@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
-import walletIcon from "../assets/wallet.png"
+import walletIcon from "../assets/wallet.png";
 
 const Dashboard = () => {
     const [users, setUser] = useState([]);
@@ -45,28 +45,31 @@ const Dashboard = () => {
             console.error("Error fetching balance:", error);
         }
     }
-    handelBalance()
+    handelBalance();
 
     return (
-        <div className="w-full h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+        <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
             <NavBar name={name} />
-            <div className="p-8  mx-auto">
-                <div className="flex justify-between items-center mb-6">
-                    <div className="text-4xl font-bold">
+            <div className="p-4 sm:p-6 w-full sm:max-w-8xl mx-auto">
+                <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
+                    <div className="text-xl sm:text-4xl font-bold mb-4 sm:mb-0">
                         <span>Balance: </span>
-                        <span className="text-green-500 dark:text-green-500">$ {Math.floor(balance)}</span>
+                        <span className="text-green-500 dark:text-green-400">${Math.floor(balance)}</span>
                     </div>
-                    <button onClick={handelBalance} className="bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-6 rounded-3xl">
+                    <button
+                        onClick={handelBalance}
+                        className="bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-4 sm:px-6 rounded-lg sm:rounded-3xl w-full sm:w-auto text-center"
+                    >
                         Check Balance
                     </button>
                 </div>
-                <div className="font-bold text-lg mb-2">Users</div>
-                <div className="mb-4">
+
+                <div className="mb-2 mt-10">
                     <input
                         onChange={(e) => setFilter(e.target.value)}
-                        className="w-full px-4 py-2 border rounded dark:border-gray-600 dark:bg-gray-800"
+                        className="w-full px-4 py-2 border rounded-2xl dark:border-gray-600 dark:bg-gray-800"
                         type="text"
-                        placeholder="Search users..."
+                        placeholder="search users . . ."
                     />
                 </div>
                 <div>
@@ -76,29 +79,45 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
+
     );
-}
+};
 
 function User({ user }) {
     const navigate = useNavigate();
     return (
-        <div className="flex justify-between items-center py-4 px-6 border-b dark:border-gray-700">
+        <div className="flex justify-between items-center py-2 sm:py-4 px-0 sm:px-6 border-b dark:border-gray-700">
+            {/* User Details */}
             <div className="flex items-center space-x-3">
-                <div className="flex items-center justify-center rounded-full h-12 w-12 bg-indigo-100 dark:bg-indigo-500 text-indigo-700 dark:text-white font-bold text-xl">
+                {/* User Icon */}
+                <div className="flex items-center justify-center rounded-full h-9 w-9 sm:h-12 sm:w-12 bg-indigo-100 dark:bg-indigo-500 text-indigo-700 dark:text-white font-bold text-base sm:text-xl">
                     {user.name[0].toUpperCase()}
                 </div>
-                <div>
-                    <div className="text-lg font-semibold">
+
+                {/* User Name and Email */}
+                <div className="text-left">
+                    <div className="text-md sm:text-lg font-semibold">
                         {user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase()}
                     </div>
-                    <div className="text-sm">
-                        {user.email}
-                    </div>
+                    <div className="text-xs md:text-base text-gray-600 dark:text-gray-400 break-all">{user.email.toLowerCase()}</div>
                 </div>
             </div>
-            <Button onClick={() => navigate(`/send?id=${user._id}&name=${user.name}`)} label="Send Money" />
+
+            {/* Send Money Button */}
+            <div className=" py-2 sm:pt-4 ">
+                <button
+                    onClick={() => navigate(`/send?id=${user._id}&name=${user.name}`)}
+                    type="button"
+                    className="bg-slate-700 hover:bg-indigo-500 dark:bg-gray-700 dark:hover:bg-indigo-600 focus:outline-none font-medium text-white rounded-md text-xs sm:text-sm w-auto px-3 sm:px-4 py-1.5 sm:py-2 mb-2 mt-4"
+                >
+                    Send <span className="hidden sm:inline">Money</span>
+                </button>
+            </div>
+
+
         </div>
     );
 }
+
 
 export default Dashboard;

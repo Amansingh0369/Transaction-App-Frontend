@@ -94,11 +94,13 @@ const Signup = () => {
                         className="mb-6"
                     />
 
-                    <Button
-                        label={"Sign Up"}
-                        onClick={onclick}
-                        className="w-full mb-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md transition duration-300 ease-in-out"
-                    />
+                    <div className="pt-4">
+                        <Button
+                            label={"Sign Up"}
+                            onClick={onclick}
+                            className="w-full mb-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md transition duration-300 ease-in-out"
+                        />
+                    </div>
 
                     <ButtomWarning
                         label={"Already have an account?"}

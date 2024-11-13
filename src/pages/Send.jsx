@@ -1,20 +1,20 @@
 import { Heading } from "../components/Heading.jsx";
 import { InputBox } from "../components/InputBox.jsx";
 import axios from "axios";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import {Button} from "../components/Button.jsx";
-import {ButtomWarning} from "../components/ButtomWarning.jsx";
+import { ButtomWarning } from "../components/ButtomWarning.jsx";
+import moneyGif from "../assets/savings.gif";
+import {Button} from "../components/Button.jsx"
 
 const Send = () => {
     const [searchParam] = useSearchParams();
     const name = searchParam.get("name");
     const id = searchParam.get("id");
     const [amount, setAmount] = useState();
-    const [success, setSuccess] = useState(false); // Track success state
-    const navigate = useNavigate()
-    let email = useState();
+    const [success, setSuccess] = useState(false);
+    const navigate = useNavigate();
 
     const handleTransfer = async () => {
         try {
@@ -26,9 +26,8 @@ const Send = () => {
                     authorization: "Bearer " + localStorage.getItem("token"),
                 },
             });
-            email = response.data.email;
             if (response.data.msg === 'Transfer successful') {
-                setSuccess(true); // Set success to true on successful transfer
+                setSuccess(true);
             }
         } catch (error) {
             console.error("Error initiating transfer:", error.response?.data || error.message);
@@ -37,34 +36,55 @@ const Send = () => {
     };
 
     return (
-        <div
-            className="bg-gradient-to-br from-blue-500 to-indigo-700 w-screen h-screen flex justify-center items-center px-6 sm:px-12">
-            <div
-                className="border shadow-2xl w-full sm:w-2/3 md:w-1/2 lg:w-1/3 h-2/3 bg-white rounded-3xl p-10 flex flex-col justify-between items-center transform transition-transform duration-300 hover:scale-105">
-                {success ? (
+        <div className="w-screen h-screen flex justify-center items-center px-6 sm:px-12">
+            <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-white rounded-3xl p-4 sm:p-10 flex flex-col justify-between items-center sm:shadow-2xl">
+                {/* Background Blur */}
+                <div
+                    aria-hidden="true"
+                    className="hidden sm:block absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+                >
                     <div
-                        className="flex flex-col items-center text-green-500 h-full justify-center space-y-4 animate-fade-in">
-                        <FaCheckCircle className="text-7xl mb-2 animate-bounce"/>
-                        <div className="text-3xl font-bold">Payment Successful</div>
+                        style={{
+                            clipPath:
+                                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                        }}
+                        className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+                    />
+                </div>
+
+                {success ? (
+                    <div className="flex flex-col items-center h-full justify-center space-y-10 animate-fadeInScale">
+                        <FaCheckCircle className="text-green-500 text-7xl mb-2 animate-bounceSlow" />
+                        <div className="text-3xl font-bold text-green-600">Payment Successful</div>
                         <p className="text-gray-600 text-center mt-2 px-6">
                             Your payment has been processed successfully. Thank you for your transaction!
                         </p>
-                        <ButtomWarning to={"/dashboard"} buttonText={"send again ?"}/>
+                        <ButtomWarning to={"/dashboard"} buttonText={"Send Again?"} className="hover:scale-105 transition-transform duration-300" />
                     </div>
+
                 ) : (
                     <>
                         <div className="w-full text-center">
-                            <Heading label={"Send Money"}/>
+                            <Heading label={"Send Money"} />
+                            <div className="text-sm">Powered by transaction app</div>
                         </div>
 
-                        <div className="w-full">
-                            <div className="flex items-center mb-0 space-x-4">
-                                <div
-                                    className="relative flex items-center justify-center w-20 h-20 bg-gradient-to-tr from-green-400 to-blue-300 rounded-full shadow-lg animate-pulse">
+                        {/* Image section with responsive design */}
+                        <div className="w-full flex justify-center">
+                            <img
+                                src={moneyGif}
+                                alt="Decorative"
+                                className="object-cover w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-3xl"
+                            />
+                        </div>
+
+                        <div className="w-full mt-20 sm:mt-20">
+                            <div className="flex items-center mb-4 space-x-4">
+                                <div className="relative flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-tr from-indigo-400 to-pink-300 rounded-full shadow-lg ">
                                     <span className="font-semibold text-3xl text-white">{name[0].toUpperCase()}</span>
                                 </div>
                                 <div className="text-3xl md:text-4xl font-semibold text-gray-800 tracking-wide">
-                                    {name.toUpperCase()}
+                                    {name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}
                                 </div>
                             </div>
 
@@ -74,20 +94,30 @@ const Send = () => {
                                 placeholder={"Enter Amount"}
                                 className="mb-2 w-full"
                             />
-                        </div>
 
-                        <div className=" w-full">
-                            <button
-                                onClick={handleTransfer}
-                                className="bg-gradient-to-r from-green-400 to-green-500 text-white font-semibold rounded-2xl w-full h-12 shadow-lg transition-all duration-300 hover:bg-gradient-to-l hover:from-blue-500 hover:to-green-400 hover:shadow-2xl"
-                            >
-                                Initiate Transfer
-                            </button>
+                            <div className="w-full items-center">
+                                <Button label={"Initiate Transfer"} onClick={handleTransfer} />
+                            </div>
+
                         </div>
                     </>
                 )}
+                {/* Bottom Background Blur */}
+                <div
+                    aria-hidden="true"
+                    className="hidden sm:block absolute inset-x-0 top-[calc(100%-25rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-45rem)]"
+                >
+                    <div
+                        style={{
+                            clipPath:
+                                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                        }}
+                        className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+                    />
+                </div>
             </div>
         </div>
     );
-}
-export default Send
+};
+
+export default Send;
