@@ -1,63 +1,75 @@
-import { Heading } from "../components/Heading.jsx";
-import { SubHeading } from "../components/SubHeading.jsx";
 import { NavBar } from "../components/NavBar.jsx";
-import { InputBox } from "../components/InputBox.jsx";
-import { Button } from "../components/Button.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
-import walletIcon from "../assets/wallet.png";
+import React from "react";
 
 const Dashboard = () => {
-    const [users, setUser] = useState([]);
+    const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState("");
     const [searchParam] = useSearchParams();
     const name = searchParam.get("email");
-    const [balance, setBalance] = useState();
+    const [balance, setBalance] = useState(0);
     const [darkMode, setDarkMode] = useState(false);
+    const [isLoadingBalance, setIsLoadingBalance] = useState(false);
 
-    useEffect(() => {
-        async function fetchUsers() {
-            try {
-                const response = await axios.get(`http://localhost:3000/api/v1/user/bulk?filter=${filter}`);
-                setUser(response.data.users);
-            } catch (error) {
-                console.error("Error fetching users:", error);
-            }
+    const fetchUsers = useCallback(async () => {
+        try {
+            const response = await axios.get(`http://localhost:3000/api/v1/user/bulk?filter=${filter}`);
+            setUsers(response.data.users);
+        } catch (error) {
+            console.error("Error fetching users:", error);
         }
-        fetchUsers();
     }, [filter]);
 
     useEffect(() => {
-        document.documentElement.classList.toggle('dark', darkMode);
-    }, [darkMode]);
+        const timeout = setTimeout(fetchUsers, 300);
+        return () => clearTimeout(timeout);
+    }, [fetchUsers]);
 
-    async function handelBalance() {
+    const fetchBalance = async () => {
+        setIsLoadingBalance(true);
         try {
             const response = await axios.get("http://localhost:3000/api/v1/account/balance", {
                 headers: {
-                    authorization: "Bearer " + localStorage.getItem("token")
-                }
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
             });
             setBalance(response.data.balance);
         } catch (error) {
             console.error("Error fetching balance:", error);
+        } finally {
+            setIsLoadingBalance(false);
         }
-    }
-    handelBalance();
+    };
+
+    useEffect(() => {
+        fetchBalance();
+    }, []);
+
+    useEffect(() => {
+        document.documentElement.classList.toggle("dark", darkMode);
+    }, [darkMode]);
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
             <NavBar name={name} />
+
+            {/* Loading indicator */}
+            {isLoadingBalance && (
+                <div className="w-full h-[8px] bg-gradient-to-r from-blue-300 via-indigo-400 to-purple-500 animate-pulse rounded-xl shadow-lg bg-[length:60%] animate-shimmer"></div>
+            )}
+
             <div className="p-4 sm:p-6 w-full sm:max-w-8xl mx-auto">
                 <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
                     <div className="text-xl sm:text-4xl font-bold mb-4 sm:mb-0">
                         <span>Balance: </span>
-                        <span className="text-green-500 dark:text-green-400">${Math.floor(balance)}</span>
+                        <span className="text-green-500 dark:text-green-400">
+              ${Math.floor(balance)}
+            </span>
                     </div>
                     <button
-                        onClick={handelBalance}
+                        onClick={fetchBalance}
                         className="bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-4 sm:px-6 rounded-lg sm:rounded-3xl w-full sm:w-auto text-center"
                     >
                         Check Balance
@@ -69,7 +81,7 @@ const Dashboard = () => {
                         onChange={(e) => setFilter(e.target.value)}
                         className="w-full px-4 py-2 border rounded-2xl dark:border-gray-600 dark:bg-gray-800"
                         type="text"
-                        placeholder="search users . . ."
+                        placeholder="Search users..."
                     />
                 </div>
                 <div>
@@ -79,32 +91,29 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
-
     );
 };
 
-function User({ user }) {
+// User Component with React.memo for optimization
+const User = React.memo(({ user }) => {
     const navigate = useNavigate();
+
     return (
         <div className="flex justify-between items-center py-2 sm:py-4 px-0 sm:px-6 border-b dark:border-gray-700">
-            {/* User Details */}
             <div className="flex items-center space-x-3">
-                {/* User Icon */}
                 <div className="flex items-center justify-center rounded-full h-9 w-9 sm:h-12 sm:w-12 bg-indigo-100 dark:bg-indigo-500 text-indigo-700 dark:text-white font-bold text-base sm:text-xl">
                     {user.name[0].toUpperCase()}
                 </div>
-
-                {/* User Name and Email */}
                 <div className="text-left">
                     <div className="text-md sm:text-lg font-semibold">
                         {user.name.charAt(0).toUpperCase() + user.name.slice(1).toLowerCase()}
                     </div>
-                    <div className="text-xs md:text-base text-gray-600 dark:text-gray-400 break-all">{user.email.toLowerCase()}</div>
+                    <div className="text-xs md:text-base text-gray-600 dark:text-gray-400 break-all">
+                        {user.email.toLowerCase()}
+                    </div>
                 </div>
             </div>
-
-            {/* Send Money Button */}
-            <div className=" py-2 sm:pt-4 ">
+            <div className="py-2 sm:pt-4">
                 <button
                     onClick={() => navigate(`/send?id=${user._id}&name=${user.name}`)}
                     type="button"
@@ -113,11 +122,8 @@ function User({ user }) {
                     Send <span className="hidden sm:inline">Money</span>
                 </button>
             </div>
-
-
         </div>
     );
-}
-
+});
 
 export default Dashboard;

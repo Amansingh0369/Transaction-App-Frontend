@@ -12,36 +12,86 @@ const Signup = () => {
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [alerts, setAlerts] = useState([]);
     const navigate = useNavigate();
+
+    const addAlert = (message, type) => {
+        const id = Date.now();
+        setAlerts((prevAlerts) => [...prevAlerts, { id, message, type }]);
+        setTimeout(() => {
+            setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
+        }, 3000);
+    };
 
     async function onclick() {
         try {
             if (!fullName || !email || !password) {
-                return alert("Fill all the required fields");
+                return addAlert("Fill all the required fields", "warning");
             }
+            if (password.length < 7) {
+                return addAlert("Password should be at least 7 characters", "warning");
+            }
+
             const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
                 name: fullName,
                 email,
                 password,
             });
+
             if (response.status === 200) {
-                localStorage.setItem("token", await response.data.token);
-                alert(response.data.msg);
+                localStorage.setItem("token", response.data.token);
+                addAlert(response.data.msg, "success");
                 navigate("/dashboard");
             }
         } catch (e) {
-            if (e.response && e.response.status === 401) {
-                alert(e.response.data.msg);
+            if (e.response && e.response.data && e.response.data.msg) {
+                addAlert(e.response.data.msg, "error");
             } else {
-                alert("An error occurred during signup.");
+                addAlert("An error occurred during signup.", "error");
             }
             console.log(e);
         }
     }
 
     return (
-        <div className="flex justify-center items-center h-screen w-screen px-4">
-            {/* Background Blur */}
+        <div className="flex justify-center items-center h-screen w-screen px-4 relative">
+            <div className="fixed top-4 right-4 space-y-2 z-50">
+                {alerts.map((alert) => (
+                    <div
+                        key={alert.id}
+                        className={`flex items-center p-3 text-sm text-white rounded-md ${
+                            alert.type === "success"
+                                ? "bg-green-600"
+                                : alert.type === "error"
+                                    ? "bg-red-600"
+                                    : "bg-orange-600"
+                        }`}
+                    >
+                        {alert.message}
+                        <button
+                            onClick={() =>
+                                setAlerts((prevAlerts) => prevAlerts.filter((a) => a.id !== alert.id))
+                            }
+                            className="ml-2 w-6 h-6 flex items-center justify-center text-white rounded-full hover:bg-white/10"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                className="w-4 h-4"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                ))}
+            </div>
+
             <div
                 aria-hidden="true"
                 className="hidden sm:block absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -55,17 +105,14 @@ const Signup = () => {
                 />
             </div>
 
-            {/* Main Container with Image and Signup Box */}
             <div className="w-full sm:w-3/4 md:w-4/5 lg:w-11/12 bg-white rounded-3xl sm:shadow-lg p-4 md:p-12 lg:p-16 transform transition-all duration-500 ease-in-out flex flex-col md:flex-row">
-
-                <div className="hidden md:block md:w-1/2 lg:w-1/3 flex justify-center items-center pb-10 mx-44">
+                <div className="hidden md:block md:w-1/2 lg:w-1/3 flex justify-center items-center pb-8 mx-44">
                     <img
                         src={signupGif}
                         alt="Decorative"
                         className="object-cover w-full h-full rounded-3xl"
                     />
                 </div>
-                {/* Signup Box */}
                 <div className="p-0 flex-1 md:w-1/2 lg:w-1/3">
                     <div className="text-center w-full mb-6">
                         <Heading label={"Sign Up"} />
@@ -111,7 +158,6 @@ const Signup = () => {
                 </div>
             </div>
 
-            {/* Bottom Background Blur */}
             <div
                 aria-hidden="true"
                 className="hidden sm:block absolute inset-x-0 top-[calc(100%-25rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-45rem)]"

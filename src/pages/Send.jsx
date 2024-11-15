@@ -28,6 +28,9 @@ const Send = () => {
             });
             if (response.data.msg === 'Transfer successful') {
                 setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 2 * 1000);
             }
         } catch (error) {
             console.error("Error initiating transfer:", error.response?.data || error.message);
@@ -37,7 +40,7 @@ const Send = () => {
 
     return (
         <div className="w-screen h-screen flex justify-center items-center px-6 sm:px-12">
-            <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-white rounded-3xl p-4 sm:p-10 flex flex-col justify-between items-center sm:shadow-2xl">
+            <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-white rounded-3xl p-4 sm:px-10 sm:py-4 flex flex-col justify-between items-center sm:shadow-2xl">
                 {/* Background Blur */}
                 <div
                     aria-hidden="true"
@@ -53,13 +56,12 @@ const Send = () => {
                 </div>
 
                 {success ? (
-                    <div className="flex flex-col items-center h-full justify-center space-y-10 animate-fadeInScale">
-                        <FaCheckCircle className="text-green-500 text-7xl mb-2 animate-bounceSlow" />
-                        <div className="text-3xl font-bold text-green-600">Payment Successful</div>
-                        <p className="text-gray-600 text-center mt-2 px-6">
+                    <div className="flex flex-col items-center h-full justify-center space-y-8 mt-20 sm:mt-0 animate-fadeInScale">
+                        <FaCheckCircle className="text-green-500 text-7xl mt-20 mb-2 animate-bounceSlow" />
+                        <div className="text-4xl font-bold text-center text-green-600">Payment Successful</div>
+                        <p className="text-gray-600 text-center px-2.5 text-xs sm:text-sm ">
                             Your payment has been processed successfully. Thank you for your transaction!
                         </p>
-                        <ButtomWarning to={"/dashboard"} buttonText={"Send Again?"} className="hover:scale-105 transition-transform duration-300" />
                     </div>
 
                 ) : (
@@ -78,7 +80,7 @@ const Send = () => {
                             />
                         </div>
 
-                        <div className="w-full mt-20 sm:mt-20">
+                        <div className="w-full mt-16 sm:mt-20">
                             <div className="flex items-center mb-4 space-x-4">
                                 <div className="relative flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-tr from-indigo-400 to-pink-300 rounded-full shadow-lg ">
                                     <span className="font-semibold text-3xl text-white">{name[0].toUpperCase()}</span>

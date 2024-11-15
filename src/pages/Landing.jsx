@@ -17,18 +17,20 @@ export default function Landing() {
     return (
         <div className={`min-h-full bg-white dark:bg-gray-900`}>
             <header className="absolute inset-x-0 top-0 z-50">
-                <nav aria-label="Global" className="flex items-center justify-between p-2 lg:p-4 lg:px-8">
-                    <div className="flex lg:flex-1 items-center space-x-2">
-                        <a href="/" className="p-2">
-                            <span className="sr-only">Transaction App</span>
+                <nav aria-label="Global" className="flex items-center justify-between p-4 lg:p-4 lg:px-8">
+                    <div className="flex items-center space-x-2">
+                        <a href="/" className="flex items-center space-x-2">
                             <img
-                                alt="Transaction App Logo"
                                 src={darkMode ? walletIcon : logo}
-                                className="h-10 w-auto lg:h-10 lg:w-auto"
+                                alt="Transaction App Logo"
+                                className="h-8 w-auto sm:h-10"
                             />
+                            <span className="text-xl sm:text-3xl font-semibold text-gray-800 dark:text-white">
+                                 Transaction App
+                            </span>
                         </a>
-                        <div className="text-2xl font-semibold text-gray-800 dark:text-white">Transaction App</div>
                     </div>
+
 
                     {/* Dark Mode Toggle - Always Visible */}
                     <div className="lg:hidden flex items-center space-x-4">
@@ -43,7 +45,7 @@ export default function Landing() {
                         <button
                             type="button"
                             onClick={() => setMobileMenuOpen(true)}
-                            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300"
+                            className="inline-flex items-center justify-center rounded-md  text-gray-700 dark:text-gray-300"
                         >
                             <span className="sr-only">Open main menu</span>
                             <Bars3Icon aria-hidden="true" className="h-6 w-6" />
@@ -110,6 +112,9 @@ export default function Landing() {
                                     >
                                         Log in
                                     </a>
+                                    <div className="text-center mt-96">
+                                        Powered By Transaction App
+                                    </div>
                                 </div>
                             </div>
                         </div>
