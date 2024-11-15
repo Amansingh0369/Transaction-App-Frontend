@@ -8,7 +8,7 @@ function Loading() {
             <img
                 src={loadGif}
                 alt="Loading Image"
-                className="h-48 w-48 sm:h-64 sm:w-64 animate-bounce"
+                className="h-20 w-20 sm:h-56 sm:w-56 animate-bounce"
             />
         </div>
     );

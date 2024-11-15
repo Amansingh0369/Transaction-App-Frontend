@@ -54,9 +54,9 @@ module.exports = {
                 },
                 // Bounce in and out effect
                 bounceInOut: {
-                    '0%': { transform: 'scale(4)', opacity: 0 },
-                    '50%': { transform: 'scale(0.5)', opacity: 1 },
-                    '100%': { transform: 'scale(4)', opacity: 0 },
+                    '0%': { transform: 'scale(0.5)', opacity: 0.7 },
+                    '50%': { transform: 'scale(1.1)', opacity: 1 },
+                    '100%': { transform: 'scale(1)', opacity: 1 },
                 },
             },
             animation: {
@@ -71,7 +71,8 @@ module.exports = {
                 // Slow spin animation
                 'spin-slow': 'spin-slow 2s linear infinite',
                 // Bounce in and out animation
-                bounceInOut: 'bounceInOut 2s cubic-bezier(0.5, 0, 0.5, 1) infinite',
+                bounceInOnce: 'bounceInOut 1s cubic-bezier(0.5, 0.5, 0.5, 1) forwards',
+                bounceSloww: 'bounceSlow 2s infinite ease-in-out',
             },
         },
     },

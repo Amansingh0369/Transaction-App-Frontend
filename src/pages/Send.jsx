@@ -30,7 +30,7 @@ const Send = () => {
                 setSuccess(true);
                 setTimeout(() => {
                     setSuccess(false);
-                }, 2 * 1000);
+                }, 3 * 1000);
             }
         } catch (error) {
             console.error("Error initiating transfer:", error.response?.data || error.message);
@@ -56,10 +56,17 @@ const Send = () => {
                 </div>
 
                 {success ? (
-                    <div className="flex flex-col items-center h-full justify-center space-y-8 mt-20 sm:mt-0 animate-fadeInScale">
-                        <FaCheckCircle className="text-green-500 text-7xl mt-20 mb-2 animate-bounceSlow" />
-                        <div className="text-4xl font-bold text-center text-green-600">Payment Successful</div>
-                        <p className="text-gray-600 text-center px-2.5 text-xs sm:text-sm ">
+                    <div className="flex flex-col items-center h-full justify-center space-y-12 my-20 sm:mt-0 animate-bounceInOnce">
+                        {/* Check Icon with Slow Bounce */}
+                        <FaCheckCircle className="text-green-500 text-7xl mt-20 mb-10 animate-bounceSloww" />
+
+                        {/* Success Message */}
+                        <div className="text-4xl font-bold text-center text-green-600">
+                            Payment Successful
+                        </div>
+
+                        {/* Description */}
+                        <p className="text-gray-600 text-center px-2.5 text-xs sm:text-sm">
                             Your payment has been processed successfully. Thank you for your transaction!
                         </p>
                     </div>
