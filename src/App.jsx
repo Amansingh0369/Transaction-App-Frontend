@@ -1,4 +1,5 @@
-import './App.css';
+// import './App.css';
+// import "./index.css"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React, { useState, useEffect, Suspense } from 'react';
 import Loading  from "../src/components/Loading.jsx"

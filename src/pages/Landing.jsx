@@ -15,7 +15,7 @@ export default function Landing() {
     }, [darkMode])
 
     return (
-        <div className={`min-h-full bg-white dark:bg-gray-900`}>
+        <div className="h-screen bg-white dark:bg-gray-900">
             <header className="absolute inset-x-0 top-0 z-50">
                 <nav aria-label="Global" className="flex items-center justify-between p-4 lg:p-4 lg:px-8">
                     <div className="flex items-center space-x-2">
@@ -32,7 +32,6 @@ export default function Landing() {
                     </div>
 
 
-                    {/* Dark Mode Toggle - Always Visible */}
                     <div className="lg:hidden flex items-center space-x-4">
                         <button
                             onClick={() => setDarkMode(!darkMode)}
@@ -41,7 +40,6 @@ export default function Landing() {
                             {darkMode ? <SunIcon className="h-6 w-6" /> : <MoonIcon className="h-6 w-6" />}
                         </button>
 
-                        {/* Mobile Menu Button */}
                         <button
                             type="button"
                             onClick={() => setMobileMenuOpen(true)}
@@ -69,7 +67,6 @@ export default function Landing() {
                     </div>
                 </nav>
 
-                {/* Mobile Menu Dialog */}
                 <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
                     <div className="fixed inset-0 z-50" />
                     <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:bg-gray-800 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
@@ -135,7 +132,7 @@ export default function Landing() {
                         className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
                     />
                 </div>
-                <div className="mx-auto max-w-2xl py-16 sm:py-48 lg:pt-40">
+                <div className="mx-auto max-w-2xl py-16 sm:py-48 lg:pt-36">
                     <div className="text-center">
                         <h1 className="text-balance text-4xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-7xl">
                             Simple Secure Empowering Every <span className="animate-exchange">Exchange</span>
