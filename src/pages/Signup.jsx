@@ -109,8 +109,9 @@ const Signup = () => {
                 <div className="hidden md:block md:w-1/2 lg:w-1/3 flex justify-center items-center pb-8 mx-44">
                     <img
                         src={signupGif}
-                        alt="Decorative"
+                        alt="signup gif"
                         className="object-cover w-full h-full rounded-3xl"
+                        loading="lazy" rel="preload"
                     />
                 </div>
                 <div className="p-0 flex-1 md:w-1/2 lg:w-1/3">

@@ -24,6 +24,7 @@ export default function Landing() {
                                 src={darkMode ? walletIcon : logo}
                                 alt="Transaction App Logo"
                                 className="h-8 w-auto sm:h-10"
+                                loading="lazy" rel="preload"
                             />
                             <span className="text-xl sm:text-3xl font-semibold text-gray-800 dark:text-white">
                                  Transaction App

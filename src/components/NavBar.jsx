@@ -17,7 +17,7 @@ export function NavBar({ name }) {
         <div className="flex items-center justify-between p-4 sm:p-6 drop-shadow-lg bg-white dark:bg-indigo-600 text-gray-800 dark:text-white">
 
             <div className="flex items-center space-x-2 cursor-pointer">
-                <img src={darkMode ? walletIcon : logo} alt="Transaction App Logo" className="h-6 w-auto sm:h-10" />
+                <img src={darkMode ? walletIcon : logo} alt="Transaction App Logo" className="h-6 w-auto sm:h-10" loading="lazy" rel="preload" />
                 <div className="text-xl sm:text-3xl font-semibold">Transaction App</div>
             </div>
 
@@ -31,7 +31,7 @@ export function NavBar({ name }) {
                     </div>
 
                     <div className="relative inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 overflow-hidden bg-gray-200 dark:bg-gray-700 rounded-full">
-                        <img src={profile} alt="User Profile" className="w-full h-full object-cover rounded-full" />
+                        <img src={profile} alt="User Profile" className="w-full h-full object-cover rounded-full" loading="lazy" rel="preload" />
                     </div>
                 </div>
             </div>

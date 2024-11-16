@@ -82,8 +82,9 @@ const Send = () => {
                         <div className="w-full flex justify-center">
                             <img
                                 src={moneyGif}
-                                alt="Decorative"
+                                alt="sending gif"
                                 className="object-cover w-32 h-32 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-3xl"
+                                loading="lazy" rel="preload"
                             />
                         </div>
 
