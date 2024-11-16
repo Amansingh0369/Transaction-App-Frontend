@@ -25,9 +25,14 @@ export function NavBar({ name }) {
                 <button onClick={() => setDarkMode(!darkMode)} className="text-gray-900 dark:text-gray-300 p-2">
                     {darkMode ? <SunIcon className="h-5 w-5 sm:h-6 sm:w-6" /> : <MoonIcon className="h-5 w-5 sm:h-6 sm:w-6" />}
                 </button>
+                <div className="flex">
+                    <div className="hidden sm:block text-center align-middle pt-2 p-2">
+                        {name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}
+                    </div>
 
-                <div className="relative inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 overflow-hidden bg-gray-200 dark:bg-gray-700 rounded-full">
-                    <img src={profile} alt="User Profile" className="w-full h-full object-cover rounded-full" />
+                    <div className="relative inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 overflow-hidden bg-gray-200 dark:bg-gray-700 rounded-full">
+                        <img src={profile} alt="User Profile" className="w-full h-full object-cover rounded-full" />
+                    </div>
                 </div>
             </div>
 

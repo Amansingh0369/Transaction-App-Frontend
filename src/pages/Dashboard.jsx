@@ -7,12 +7,11 @@ import React from "react";
 const Dashboard = () => {
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState("");
-    const [searchParam] = useSearchParams();
-    const name = searchParam.get("email");
+    const [name,setName] = useState("");
     const [balance, setBalance] = useState(0);
     const [darkMode, setDarkMode] = useState(false);
     const [isLoadingBalance, setIsLoadingBalance] = useState(false);
-    const sortedUsers = [...users].sort((a, b) => a.name.localeCompare(b.name)); // Adjust key as needed
+    const sortedUsers = [...users].sort((a, b) => a.name.localeCompare(b.name));
 
     const fetchUsers = useCallback(async () => {
         try {
@@ -37,6 +36,7 @@ const Dashboard = () => {
                 },
             });
             setBalance(response.data.balance);
+            setName(response.data.name);
         } catch (error) {
             console.error("Error fetching balance:", error);
         } finally {
