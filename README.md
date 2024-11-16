@@ -2,7 +2,7 @@
 
 ### Transaction Dashboard
 
-![Transaction Dashboard](./images/transaction_page.png)
+![Transaction Dashboard](./images/Landing-page.png)
 
 This is the **frontend** part of the **Transaction App**, a financial management tool that allows users to manage their transactions. The app provides functionalities for users to create, view, and send transactions, with features like dark/light mode and responsive design for an optimized experience across devices.
 
