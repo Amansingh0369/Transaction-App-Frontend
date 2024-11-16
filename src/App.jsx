@@ -21,12 +21,12 @@ function App() {
     }, []);
 
     if (isLoading) {
-        return <Loading />; // Display loading screen while `isLoading` is true
+        return <Loading />;
     }
 
     return (
         <BrowserRouter>
-            <Suspense fallback={<Loading />}> {/* Fallback while components are loading */}
+            <Suspense fallback={<Loading />}>
                 <Routes>
                     <Route path="/" element={<Landing />} />
                     <Route path="/signup" element={<Signup />} />

@@ -18,7 +18,7 @@ const Send = () => {
 
     const handleTransfer = async () => {
         try {
-            const response = await axios.post("http://localhost:3000/api/v1/account/transfer", {
+            const response = await axios.post("https://transaction-app-backend-eny5.onrender.com/api/v1/account/transfer", {
                 to: id,
                 amount,
             }, {
@@ -99,7 +99,7 @@ const Send = () => {
 
                             <InputBox
                                 onChange={(e) => setAmount(Number(e.target.value) || 0)}
-                                label={"Amount (in Rs)"}
+                                label={"Amount (in $)"}
                                 placeholder={"Enter Amount"}
                                 className="mb-2 w-full"
                             />

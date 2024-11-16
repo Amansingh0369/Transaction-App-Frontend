@@ -32,7 +32,7 @@ const Signup = () => {
                 return addAlert("Password should be at least 7 characters", "warning");
             }
 
-            const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
+            const response = await axios.post("https://transaction-app-backend-eny5.onrender.com/api/v1/user/signup", {
                 name: fullName,
                 email,
                 password,

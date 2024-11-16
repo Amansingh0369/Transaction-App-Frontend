@@ -15,7 +15,7 @@ const Dashboard = () => {
 
     const fetchUsers = useCallback(async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/v1/user/bulk?filter=${filter}`);
+            const response = await axios.get(`https://transaction-app-backend-eny5.onrender.com/api/v1/user/bulk?filter=${filter}`);
             setUsers(response.data.users);
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -30,7 +30,7 @@ const Dashboard = () => {
     const fetchBalance = async () => {
         setIsLoadingBalance(true);
         try {
-            const response = await axios.get("http://localhost:3000/api/v1/account/balance", {
+            const response = await axios.get("https://transaction-app-backend-eny5.onrender.com/api/v1/account/balance", {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("token")}`,
                 },

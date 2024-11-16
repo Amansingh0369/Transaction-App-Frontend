@@ -28,7 +28,7 @@ const Login = () => {
                 return addAlert("Fill all required fields", "warning");
             }
 
-            const response = await axios.post("http://localhost:3000/api/v1/user/login", { email, password });
+            const response = await axios.post("https://transaction-app-backend-eny5.onrender.com/api/v1/user/login", { email, password });
 
             if (response.status === 200) {
                 localStorage.setItem("token", response.data.token);
