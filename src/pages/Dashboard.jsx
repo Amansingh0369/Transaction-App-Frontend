@@ -12,6 +12,7 @@ const Dashboard = () => {
     const [balance, setBalance] = useState(0);
     const [darkMode, setDarkMode] = useState(false);
     const [isLoadingBalance, setIsLoadingBalance] = useState(false);
+    const sortedUsers = [...users].sort((a, b) => a.name.localeCompare(b.name)); // Adjust key as needed
 
     const fetchUsers = useCallback(async () => {
         try {
@@ -85,7 +86,7 @@ const Dashboard = () => {
                     />
                 </div>
                 <div>
-                    {users.map((user) => (
+                    {sortedUsers.map((user) => (
                         <User key={user._id} user={user} />
                     ))}
                 </div>
@@ -94,7 +95,6 @@ const Dashboard = () => {
     );
 };
 
-// User Component with React.memo for optimization
 const User = React.memo(({ user }) => {
     const navigate = useNavigate();
 
