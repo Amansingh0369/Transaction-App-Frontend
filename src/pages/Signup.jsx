@@ -7,12 +7,14 @@ import { ButtomWarning } from "../components/ButtomWarning.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import signupGif from "../assets/signup.gif";
+import Loading from "../components/Loading.jsx"; // Import the Loading component
 
 const Signup = () => {
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [alerts, setAlerts] = useState([]);
+    const [loading, setLoading] = useState(false); // Loading state
     const navigate = useNavigate();
 
     const addAlert = (message, type) => {
@@ -24,14 +26,16 @@ const Signup = () => {
     };
 
     async function onclick() {
-        try {
-            if (!fullName || !email || !password) {
-                return addAlert("Fill all the required fields", "warning");
-            }
-            if (password.length < 7) {
-                return addAlert("Password should be at least 7 characters", "warning");
-            }
+        if (!fullName || !email || !password) {
+            return addAlert("Fill all the required fields", "warning");
+        }
+        if (password.length < 7) {
+            return addAlert("Password should be at least 7 characters", "warning");
+        }
 
+        setLoading(true); // Start loading
+
+        try {
             const response = await axios.post("https://transaction-app-backend-eny5.onrender.com/api/v1/user/signup", {
                 name: fullName,
                 email,
@@ -50,11 +54,14 @@ const Signup = () => {
                 addAlert("An error occurred during signup.", "error");
             }
             console.log(e);
+        } finally {
+            setLoading(false); // Stop loading
         }
     }
 
     return (
         <div className="flex justify-center items-center h-screen w-screen px-4 relative">
+            {/* Alerts */}
             <div className="fixed top-4 right-4 space-y-2 z-50">
                 {alerts.map((alert) => (
                     <div
@@ -92,85 +99,81 @@ const Signup = () => {
                 ))}
             </div>
 
-            <div
-                aria-hidden="true"
-                className="hidden sm:block absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-            >
-                <div
-                    style={{
-                        clipPath:
-                            'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-                    }}
-                    className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-                />
-            </div>
-
-            <div className="w-full sm:w-3/4 md:w-4/5 lg:w-11/12 bg-white rounded-3xl sm:shadow-lg p-4 md:p-12 lg:p-16 transform transition-all duration-500 ease-in-out flex flex-col md:flex-row">
-                <div className="hidden md:block md:w-1/2 lg:w-1/3 flex justify-center items-center pb-8 mx-44">
-                    <img
-                        src={signupGif}
-                        alt="signup gif"
-                        className="object-cover w-full h-full rounded-3xl"
-                        loading="lazy" rel="preload"
-                    />
+            {/* Full-Page Loading Spinner */}
+            {loading ? (
+                <div className="fixed inset-0 z-60 w-screen h-screen flex items-center justify-center bg-white">
+                    <Loading />
                 </div>
-                <div className="p-0 flex-1 md:w-1/2 lg:w-1/3">
-                    <div className="text-center w-full mb-6">
-                        <Heading label={"Sign Up"} />
-                        <SubHeading label={"Enter your information to create an account"} />
-                    </div>
-
-                    <InputBox
-                        onChange={(e) => setFullName(e.target.value)}
-                        label={"Full Name"}
-                        placeholder={"Aman Singh"}
-                        type={"text"}
-                        className="mb-4"
-                    />
-                    <InputBox
-                        onChange={(e) => setEmail(e.target.value)}
-                        label={"Email"}
-                        placeholder={"example@gmail.com"}
-                        type={"email"}
-                        className="mb-4"
-                    />
-                    <InputBox
-                        onChange={(e) => setPassword(e.target.value)}
-                        label={"Password"}
-                        placeholder={"Password"}
-                        type={"password"}
-                        className="mb-6"
-                    />
-
-                    <div className="pt-4">
-                        <Button
-                            label={"Sign Up"}
-                            onClick={onclick}
-                            className="w-full mb-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md transition duration-300 ease-in-out"
+            ) : (
+                <>
+                    <div
+                        aria-hidden="true"
+                        className="hidden sm:block absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+                    >
+                        <div
+                            style={{
+                                clipPath:
+                                    'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                            }}
+                            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
                         />
                     </div>
 
-                    <ButtomWarning
-                        label={"Already have an account?"}
-                        buttonText={"Sign in"}
-                        to={"/login"}
-                        className="text-gray-500"
-                    />
-                </div>
-            </div>
+                    <div className="w-full sm:w-3/4 md:w-4/5 lg:w-11/12 bg-white rounded-3xl sm:shadow-lg p-4 md:p-12 lg:p-16 flex flex-col md:flex-row">
+                        <div className="hidden md:block md:w-1/2 lg:w-1/3 flex justify-center items-center pb-8 mx-44">
+                            <img
+                                src={signupGif}
+                                alt="signup gif"
+                                className="object-cover w-full h-full rounded-3xl"
+                                loading="lazy" rel="preload"
+                            />
+                        </div>
+                        <div className="p-0 flex-1 md:w-1/2 lg:w-1/3">
+                            <div className="text-center w-full mb-6">
+                                <Heading label={"Sign Up"} />
+                                <SubHeading label={"Enter your information to create an account"} />
+                            </div>
 
-            <div
-                aria-hidden="true"
-                className="hidden sm:block absolute inset-x-0 top-[calc(100%-25rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-45rem)]"
-            >
-                <div
-                    style={{
-                        clipPath:
-                            'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-                    }}
-                    className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-                />
-            </div>
+                            <InputBox
+                                onChange={(e) => setFullName(e.target.value)}
+                                label={"Full Name"}
+                                placeholder={"Aman Singh"}
+                                type={"text"}
+                                className="mb-4"
+                            />
+                            <InputBox
+                                onChange={(e) => setEmail(e.target.value)}
+                                label={"Email"}
+                                placeholder={"example@gmail.com"}
+                                type={"email"}
+                                className="mb-4"
+                            />
+                            <InputBox
+                                onChange={(e) => setPassword(e.target.value)}
+                                label={"Password"}
+                                placeholder={"Password"}
+                                type={"password"}
+                                className="mb-6"
+                            />
+
+                            <div className="pt-4">
+                                <Button
+                                    label={"Sign Up"}
+                                    onClick={onclick}
+                                    className="w-full mb-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md transition duration-300 ease-in-out"
+                                />
+                            </div>
+
+                            <ButtomWarning
+                                label={"Already have an account?"}
+                                buttonText={"Sign in"}
+                                to={"/login"}
+                                className="text-gray-500"
+                            />
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };
