@@ -8,7 +8,7 @@ This is the **frontend** part of the **Transaction App**, a financial management
 
 ## Live Demo
 
-Check out the live version of the app: [Transaction App](https://transaction-app-frontend-sigma.vercel.app)
+Check out the live version of the app: [Transaction App](https://transaction-app.amansingh0369.me)
 
 ## Features
 
